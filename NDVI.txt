@@ -1,0 +1,22 @@
+var data = sentinel.filterBounds(roi).filterDate('2020-08-21','2021-11-21').median()
+var RED = data.select('B4')
+var INR = data.select('B8')
+var NDVI = INR.subtract(RED).divide(INR.add(RED))
+var NDVIc = NDVI.clip(roi)
+
+Map.centerObject(roi,10)
+
+Map.addLayer(NDVIc)
+
+var REDb = RED.clip(roi)
+var INRb = INR.clip(roi)
+//Map.addLayer(data)
+//Map.addLayer(INRb)
+
+Export.image.toDrive({
+  image:NDVIc,
+  description:'ksrdpru',
+  scale:10,
+  region:roi,
+})
+
